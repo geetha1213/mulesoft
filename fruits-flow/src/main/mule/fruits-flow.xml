@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<mule xmlns:http="http://www.mulesoft.org/schema/mule/http" xmlns="http://www.mulesoft.org/schema/mule/core"
+	xmlns:doc="http://www.mulesoft.org/schema/mule/documentation"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.mulesoft.org/schema/mule/core http://www.mulesoft.org/schema/mule/core/current/mule.xsd
+http://www.mulesoft.org/schema/mule/http http://www.mulesoft.org/schema/mule/http/current/mule-http.xsd">
+	<http:listener-config name="HTTP_Listener_config" doc:name="HTTP Listener config" doc:id="55342a8a-e9b2-4c23-8102-0330cc449c14" >
+		<http:listener-connection host="localhost" port="8082" />
+	</http:listener-config>
+	<flow name="fruits-flowFlow" doc:id="242b20d9-7c6c-430d-94ba-2af5298f0439" >
+		<http:listener doc:name="Listener" doc:id="6e48d98a-9b98-4a24-8aad-40177f3f3e45" config-ref="HTTP_Listener_config" path="fruit"/>
+		<set-variable value="#[attributes.queryParams.fruit]" doc:name="Set Variable" doc:id="c4ac06d4-e74e-4d88-b05b-e47b2802569c" variableName="fruit"/>
+		<choice doc:name="Choice" doc:id="fe0b2170-40f1-4254-b306-1a41b1f63ff0" >
+			<when expression='#[vars.fruit startsWith "ap"]'>
+				<logger level="INFO" doc:name="Logger" doc:id="c62b5ca2-648e-41e8-aa94-af3d41799f68" message="apple"/>
+			</when>
+			<when expression='#[vars.fruit == "banana"]'>
+				<logger level="INFO" doc:name="Logger" doc:id="a99fe50c-c885-41b4-8cc3-74387f8ead87" message="banana"/>
+			</when>
+			<when expression='#[vars.fruit == "sapota"]'>
+				<logger level="INFO" doc:name="Logger" doc:id="afbc9f38-0970-4167-9552-30abad2a2cc7" message="sapota"/>
+			</when>
+			<when expression='#[vars.fruit =="grapes"]'>
+				<logger level="INFO" doc:name="Logger" doc:id="6973ba78-8ed5-45ff-9c7b-b1f45b03d617" message="grapes"/>
+			</when>
+			<when expression='#[vars.fruit == "apple"]'>
+				<logger level="INFO" doc:name="Logger" doc:id="56bed1ad-771d-4857-a13e-88b3ed133ee3" message="mango"/>
+			</when>
+			<otherwise >
+				<logger level="INFO" doc:name="Logger" doc:id="6402668e-a2bf-48a5-944a-6d05b63b7d6c" message="this is default block"/>
+			</otherwise>
+		</choice>
+	</flow>
+</mule>
